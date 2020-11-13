@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     flex: 1,// meaning it shall take all the space available below the header
     padding: 10,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    paddingVertical:10
   },
   imageContainer: {
     width: Dimensions.get('window').width * 0.7,
