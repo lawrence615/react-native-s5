@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, TouchableWithoutFeedback, Keyboard, Alert, Dimensions, ScrollView, KeyboardAvoidingView } from 'react-native'
 
 import Card from '../components/Card'
@@ -15,6 +15,7 @@ const StartScreen = props => {
   const [enteredValue, setEnteredValue] = useState('')
   const [confirmed, setConfirmed] = useState(false)
   const [selectedNumber, setSelectedNumber] = useState()
+  const [buttonWidth, setButtonWidth] = useState(Dimensions.get('window').width / 4)
 
   const numberInputHandler = inputText => {
     setEnteredValue(inputText.replace(/[^0-9]/g, ''))
@@ -24,6 +25,16 @@ const StartScreen = props => {
     setEnteredValue('')
     setConfirmed(false)
   }
+
+  useEffect(() => {
+    const updateLayout = () => {
+      setButtonWidth(Dimensions.get('window').width / 4)
+    }
+    Dimensions.addEventListener('change', updateLayout)
+    return () => {
+      Dimensions.removeEventListener('change', updateLayout)
+    }
+  })
 
   const confirmInputHandler = () => {
     const chosenNum = parseInt(enteredValue)
@@ -68,8 +79,8 @@ const StartScreen = props => {
                 onChangeText={numberInputHandler}
                 value={enteredValue} />
               <View style={styles.btnContainer}>
-                <View style={styles.button}><Button title="Reset" onPress={resetInputHandler} color={Colours.accent} /></View>
-                <View style={styles.button}><Button title="Confirm" onPress={confirmInputHandler} color={Colours.primary} /></View>
+                <View style={{ width: buttonWidth }}><Button title="Reset" onPress={resetInputHandler} color={Colours.accent} /></View>
+                <View style={{ width: buttonWidth }}><Button title="Confirm" onPress={confirmInputHandler} color={Colours.primary} /></View>
               </View>
             </Card>
             {confirmedOutput}
@@ -104,10 +115,10 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15
   },
-  button: {
-    // width: 100
-    width: Dimensions.get('window').width / 4
-  },
+  // button: {
+  //   // width: 100
+  //   width: Dimensions.get('window').width / 4
+  // },
   input: {
     width: 50,
     textAlign: 'center'
