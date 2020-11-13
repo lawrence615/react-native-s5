@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, TouchableWithoutFeedback, Keyboard, Alert, Dimensions } from 'react-native'
+import { View, Text, StyleSheet, TextInput, Button, TouchableWithoutFeedback, Keyboard, Alert, Dimensions, ScrollView, KeyboardAvoidingView } from 'react-native'
 
 import Card from '../components/Card'
 import Input from '../components/Input'
@@ -51,28 +51,32 @@ const StartScreen = props => {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-      <View style={styles.screen}>
-        <TitleText style={styles.title}>Start a New Game</TitleText>
-        <Card style={styles.inputContainer}>
-          <BodyText>Select a Number</BodyText>
-          <Input
-            style={styles.input}
-            blurOnSubmit
-            autoCapitalize='none'
-            autoCorrect={false}
-            keyboardType="number-pad"
-            maxLength={2}
-            onChangeText={numberInputHandler}
-            value={enteredValue} />
-          <View style={styles.btnContainer}>
-            <View style={styles.button}><Button title="Reset" onPress={resetInputHandler} color={Colours.accent} /></View>
-            <View style={styles.button}><Button title="Confirm" onPress={confirmInputHandler} color={Colours.primary} /></View>
+    <ScrollView>
+      <KeyboardAvoidingView behavior='position' keyboardVerticalOffset={30}>
+        <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
+          <View style={styles.screen}>
+            <TitleText style={styles.title}>Start a New Game</TitleText>
+            <Card style={styles.inputContainer}>
+              <BodyText>Select a Number</BodyText>
+              <Input
+                style={styles.input}
+                blurOnSubmit
+                autoCapitalize='none'
+                autoCorrect={false}
+                keyboardType="number-pad"
+                maxLength={2}
+                onChangeText={numberInputHandler}
+                value={enteredValue} />
+              <View style={styles.btnContainer}>
+                <View style={styles.button}><Button title="Reset" onPress={resetInputHandler} color={Colours.accent} /></View>
+                <View style={styles.button}><Button title="Confirm" onPress={confirmInputHandler} color={Colours.primary} /></View>
+              </View>
+            </Card>
+            {confirmedOutput}
           </View>
-        </Card>
-        {confirmedOutput}
-      </View>
-    </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
+    </ScrollView>
   )
 }
 
